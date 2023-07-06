@@ -32,7 +32,6 @@ public class DrawCommand implements IUndoable, ICommand {
     public void run() {
         Graphics g = pc.getGraphics();
         Graphics2D graphics2d = (Graphics2D)g;
-//        Graphics2D graphics2d = (Graphics2D)g;
         int width = endPoint.x - startPoint.x;
         int height = endPoint.y - startPoint.y;
         graphics2d.fillRect(startPoint.x, startPoint.y, width, height);
@@ -51,12 +50,13 @@ public class DrawCommand implements IUndoable, ICommand {
         Graphics g = pc.getGraphics();
         Graphics2D graphics2d = (Graphics2D) g;
 
-
-
-//        graphics2d.setColor(Color.WHITE);
         graphics2d.clearRect(0, 0, pc.getWidth(), pc.getHeight());
 
-        redo(undoStack, redoStack);
+        pc.paint(graphics2d);
+        for (DrawCommand drawCommand : undoStack) {
+
+            graphics2d.fillRect(drawCommand.startPoint.x, drawCommand.startPoint.y, drawCommand.endPoint.x - drawCommand.startPoint.x, drawCommand.endPoint.y - drawCommand.startPoint.y);
+        }
         System.out.println("undo");
 
     }
@@ -65,11 +65,20 @@ public class DrawCommand implements IUndoable, ICommand {
     public void redo(Stack<DrawCommand> undoStack, Stack<DrawCommand> redoStack) {
         Graphics g = pc.getGraphics();
         Graphics2D graphics2d = (Graphics2D) g;
+
+        graphics2d.clearRect(0, 0, pc.getWidth(), pc.getHeight());
+
         pc.paint(graphics2d);
         for (DrawCommand drawCommand : undoStack) {
 
             graphics2d.fillRect(drawCommand.startPoint.x, drawCommand.startPoint.y, drawCommand.endPoint.x - drawCommand.startPoint.x, drawCommand.endPoint.y - drawCommand.startPoint.y);
         }
+        for (DrawCommand drawCommand : redoStack) {
+
+            graphics2d.fillRect(drawCommand.startPoint.x, drawCommand.startPoint.y, drawCommand.endPoint.x - drawCommand.startPoint.x, drawCommand.endPoint.y - drawCommand.startPoint.y);
+        }
+
+        System.out.println("redo");
     }
 
 }
