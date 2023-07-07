@@ -73,10 +73,7 @@ public class DrawCommand implements IUndoable, ICommand {
 
             graphics2d.fillRect(drawCommand.startPoint.x, drawCommand.startPoint.y, drawCommand.endPoint.x - drawCommand.startPoint.x, drawCommand.endPoint.y - drawCommand.startPoint.y);
         }
-        for (DrawCommand drawCommand : redoStack) {
 
-            graphics2d.fillRect(drawCommand.startPoint.x, drawCommand.startPoint.y, drawCommand.endPoint.x - drawCommand.startPoint.x, drawCommand.endPoint.y - drawCommand.startPoint.y);
-        }
 
         System.out.println("redo");
     }

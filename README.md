@@ -11,7 +11,7 @@
 - Paste copied shapes
 - Delete selected shapes
 - Undo last action(done)
-- Redo last action(done)(with bug:undo more than 1 time,redo will resume all the undo)
+- Redo last action(done)
 - Group selected shapes
 - Ungroup selected shapes
 - Selected shapes have dashed outline
