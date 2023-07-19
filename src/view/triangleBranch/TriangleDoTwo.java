@@ -1,7 +1,6 @@
 package view.triangleBranch;
 
-import view.drawhandler.DrawHandler;
-import view.interfaces.IDrawForAll;
+import view.drawhandler.DrawHandlerShade;
 import model.persistence.Point;
 
 import java.awt.*;
@@ -10,7 +9,7 @@ import java.awt.*;
  * @author lilred
  * @date 2023/07/15
  **/
-public class TriangleDoTwo extends DrawHandler {
+public class TriangleDoTwo extends DrawHandlerShade {
     //draw a triangle with fill in and outline
     public TriangleDoTwo(Graphics2D graphics2D, Point startPoint, Point endPoint, Color color, Color color2){
         super(graphics2D, startPoint, endPoint, color, color2);

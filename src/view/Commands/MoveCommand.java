@@ -11,7 +11,7 @@ import java.util.Stack;
  * @author lilred
  * @date 2023/07/17
  **/
-public class MoveCommand extends DrawAll{
+public class MoveCommand extends DrawFatherCommand {
 
     int offSetX; //offset of this mouse movement
     int offSetY; //offset of this mouse movement

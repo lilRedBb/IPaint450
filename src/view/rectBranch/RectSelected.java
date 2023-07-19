@@ -1,7 +1,7 @@
 package view.rectBranch;
 
 import model.persistence.Point;
-import view.drawhandler.DrawHandler;
+import view.drawhandler.DrawHandlerShade;
 
 import java.awt.*;
 
@@ -9,7 +9,8 @@ import java.awt.*;
  * @author lilred
  * @date 2023/07/16
  **/
-public class RectSelected extends DrawHandler {
+public class RectSelected extends DrawHandlerShade {
+    //draw dotted outline for rect
 
     public RectSelected(Graphics2D graphics2D, Point startPoint, Point endPoint, Color color, Color color2) {
         super(graphics2D, startPoint, endPoint, color, color2);

@@ -14,7 +14,7 @@ import java.util.Stack;
  * @author lilred
  * @date 2023/07/13
  **/
-public class DrawAll implements IUndoable, ICommand {
+public class DrawFatherCommand implements IUndoable, ICommand {
     //inherited by DrawOval,DrawRect,DrawTriangle,MoveCommand
     PaintCanvas pc;  //take in the shared PaintCanvas
     IApplicationState appstate; //take in the shared IApplicationState
@@ -35,7 +35,7 @@ public class DrawAll implements IUndoable, ICommand {
     boolean IsDrawCommand=true; //if this command's function is to draw a shape
 
 
-    public DrawAll(PaintCanvas pc, Point startPoint, Point endPoint, IApplicationState appstate) {
+    public DrawFatherCommand(PaintCanvas pc, Point startPoint, Point endPoint, IApplicationState appstate) {
         this.pc = pc;
         this.appstate = appstate;
         this.g = pc.getGraphics();
@@ -61,7 +61,7 @@ public class DrawAll implements IUndoable, ICommand {
     }
 
 
-    public  DrawAll(){
+    public DrawFatherCommand(){
 
     }
 

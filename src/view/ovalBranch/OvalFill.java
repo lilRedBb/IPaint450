@@ -1,8 +1,6 @@
 package view.ovalBranch;
 
-import view.Commands.DrawAll;
-import view.drawhandler.DrawHandler;
-import view.interfaces.IDrawForAll;
+import view.drawhandler.DrawHandlerShade;
 import model.persistence.Point;
 
 import java.awt.*;
@@ -11,7 +9,7 @@ import java.awt.*;
  * @author lilred
  * @date 2023/07/15
  **/
-public class OvalFill extends DrawHandler {
+public class OvalFill extends DrawHandlerShade {
     //draw a circle with fill in
 
     public OvalFill(Graphics2D graphics2D, Point startPoint, Point endPoint, Color color, Color color2){

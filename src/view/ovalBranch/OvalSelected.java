@@ -1,7 +1,7 @@
 package view.ovalBranch;
 
 import model.persistence.Point;
-import view.drawhandler.DrawHandler;
+import view.drawhandler.DrawHandlerShade;
 
 import java.awt.*;
 
@@ -9,7 +9,7 @@ import java.awt.*;
  * @author lilred
  * @date 2023/07/16
  **/
-public class OvalSelected extends DrawHandler {
+public class OvalSelected extends DrawHandlerShade {
     //give selected outline to a circle
 
     public OvalSelected(Graphics2D graphics2D, Point startPoint, Point endPoint, Color color, Color color2) {

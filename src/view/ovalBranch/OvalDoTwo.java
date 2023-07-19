@@ -1,7 +1,6 @@
 package view.ovalBranch;
 
-import view.drawhandler.DrawHandler;
-import view.interfaces.IDrawForAll;
+import view.drawhandler.DrawHandlerShade;
 import model.persistence.Point;
 
 import java.awt.*;
@@ -10,7 +9,7 @@ import java.awt.*;
  * @author lilred
  * @date 2023/07/15
  **/
-public class OvalDoTwo extends DrawHandler {
+public class OvalDoTwo extends DrawHandlerShade {
     //draw a circle with fill in and outline
 
     public OvalDoTwo(Graphics2D graphics2D, Point startPoint, Point endPoint, Color color, Color color2){

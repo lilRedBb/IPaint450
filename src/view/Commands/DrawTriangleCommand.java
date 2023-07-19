@@ -1,12 +1,11 @@
 package view.Commands;
 
-import view.drawhandler.DrawHandler;
+import view.drawhandler.DrawHandlerShade;
 import view.triangleBranch.TriangleDoTwo;
 import view.triangleBranch.TriangleFill;
 import view.triangleBranch.TriangleOutline;
 import view.triangleBranch.TriangleSelect;
 import model.interfaces.IApplicationState;
-import view.interfaces.IDrawForAll;
 import model.persistence.Point;
 import view.gui.PaintCanvas;
 
@@ -14,10 +13,10 @@ import view.gui.PaintCanvas;
  * @author lilred
  * @date 2023/07/13
  **/
-public class DrawTriangleCommand extends DrawAll  {
+public class DrawTriangleCommand extends DrawFatherCommand {
 
     //declare a DrawHandler object,which will mutate according to shadeType in the run() method.
-    DrawHandler idraw;
+    DrawHandlerShade idraw;
 
 
     public DrawTriangleCommand(PaintCanvas pc, Point startPoint, Point endPoint, IApplicationState appstate) {

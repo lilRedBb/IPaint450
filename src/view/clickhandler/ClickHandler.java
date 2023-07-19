@@ -36,19 +36,19 @@ public class ClickHandler extends MouseAdapter {
 
     @Override
     public void mouseReleased(MouseEvent e) {
-
         endPoint.x = e.getX();
         endPoint.y = e.getY();
-        //declare a DrawAll object(extends by different shape drawing classes) for strategy-model-design later
-        DrawAll icmd;
 
-        // based on applicationState, there are 3 functions so far:(select,draw,move);All 3 function do not co-exits
-        //at the same time
+        //declare a DrawAll object(extends by different shape drawing classes) for strategy-model-design later
+        DrawFatherCommand icmd;
+
+        // based on applicationState, there are 3 functions so far:(select,draw,move);If-else statement to create
+        //3 branches
 
         if (this.applicationState.getActiveMouseMode().toString().equals("SELECT")){
             SelectCommand.SelectOtherShapes(paintCanvas,startPoint,endPoint);
 
-        //for draw functions, mutate the "icmd" object to different shape-drawing according to applicationState
+        //for draw functions, mutate the "icmd" object to draw different shape according to applicationState
         }else if(this.applicationState.getActiveMouseMode().toString().equals("DRAW")) {
             if (this.applicationState.getActiveShapeType().toString().equals("ELLIPSE")){
                 icmd = new DrawOvalCommand(paintCanvas, startPoint, endPoint,applicationState);
@@ -65,7 +65,7 @@ public class ClickHandler extends MouseAdapter {
 
             runCommand.execute();
 
-        //if applicationState's mouse-mode is "Move", mutate the "icmd" object to move-command
+        //move function, mutate the "icmd" object to move-command
         }else {
             icmd = new MoveCommand(paintCanvas, startPoint, endPoint,applicationState);
 

@@ -7,9 +7,9 @@ package view.Commands;
 public class RunCommand {
     //this class is used to take in subclasses of DraWAll class
     // to call their run() and addToHistory() methods
-    private DrawAll dra;
+    private DrawFatherCommand dra;
 
-    public  RunCommand(DrawAll dra){
+    public  RunCommand(DrawFatherCommand dra){
         this.dra = dra;
     }
 

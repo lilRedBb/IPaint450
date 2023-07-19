@@ -1,27 +1,23 @@
 package view.Commands;
 
-import view.drawhandler.DrawHandler;
+import view.drawhandler.DrawHandlerShade;
 import view.ovalBranch.OvalSelected;
 import view.rectBranch.RectDoTwo;
 import view.rectBranch.RectFill;
 import view.rectBranch.RectOutline;
-import view.rectBranch.RectSelected;
 import model.interfaces.IApplicationState;
-import view.interfaces.IDrawForAll;
 import view.gui.PaintCanvas;
 import model.persistence.Point;
-
-import java.awt.*;
 
 
 /**
  * @author lilred
  * @date 2023/07/05
  **/
-public class DrawRectCommand extends DrawAll {
+public class DrawRectCommand extends DrawFatherCommand {
 
     //declare a DrawHandler object,which will mutate according to shadeType in the run() method.
-    DrawHandler idrawRect;
+    DrawHandlerShade idrawRect;
 
 
     public DrawRectCommand(PaintCanvas pc, Point startPoint, Point endPoint, IApplicationState appstate) {

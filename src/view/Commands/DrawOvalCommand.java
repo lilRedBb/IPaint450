@@ -1,6 +1,6 @@
 package view.Commands;
 
-import view.drawhandler.DrawHandler;
+import view.drawhandler.DrawHandlerShade;
 import view.ovalBranch.OvalDoTwo;
 import view.ovalBranch.OvalFill;
 import view.ovalBranch.OvalOutline;
@@ -13,10 +13,10 @@ import view.gui.PaintCanvas;
  * @author lilred
  * @date 2023/07/13
  **/
-public class DrawOvalCommand extends DrawAll {
+public class DrawOvalCommand extends DrawFatherCommand {
 
     //declare a DrawHandler object,which will mutate according to shadeType in the run() method.
-    DrawHandler idrawOval;
+    DrawHandlerShade idrawOval;
 
 
     public DrawOvalCommand(PaintCanvas pc, Point startPoint, Point endPoint, IApplicationState appstate) {

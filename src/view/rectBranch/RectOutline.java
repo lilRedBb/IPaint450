@@ -1,7 +1,6 @@
 package view.rectBranch;
 
-import view.drawhandler.DrawHandler;
-import view.interfaces.IDrawForAll;
+import view.drawhandler.DrawHandlerShade;
 import model.persistence.Point;
 
 import java.awt.*;
@@ -10,7 +9,7 @@ import java.awt.*;
  * @author lilred
  * @date 2023/07/15
  **/
-public class RectOutline extends DrawHandler {
+public class RectOutline extends DrawHandlerShade {
     //draw a rect with outline
 
     public RectOutline(Graphics2D graphics2D, Point startPoint, Point endPoint, Color color, Color color2){
