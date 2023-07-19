@@ -1,7 +1,10 @@
 package controller;
 
+import controller.interfaces.IJPaintController;
 import model.interfaces.IApplicationState;
 import view.EventName;
+import view.Commands.RedoCommand;
+import view.Commands.UndoCommand;
 import view.interfaces.ICommand;
 import view.interfaces.IUiModule;
 

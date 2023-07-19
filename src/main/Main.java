@@ -1,9 +1,8 @@
 package main;
 
-import java.util.concurrent.TimeUnit;
 import controller.JPaintController;
 import model.persistence.ApplicationState;
-import view.ClickHandler;
+import view.clickhandler.ClickHandler;
 import view.gui.Gui;
 import view.gui.GuiWindow;
 import view.gui.PaintCanvas;
@@ -23,7 +22,8 @@ public class Main {
 
         new JPaintController(uiModule, appState);
 
-        ClickHandler clickHandler = new ClickHandler(paintCanvas);
+        ClickHandler clickHandler = new ClickHandler(paintCanvas,appState);
+//        System.out.println("moving");
         paintCanvas.addMouseListener(clickHandler);
 
 

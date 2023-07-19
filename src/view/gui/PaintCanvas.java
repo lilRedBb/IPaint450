@@ -19,7 +19,7 @@ public class PaintCanvas extends JComponent {
 
         // For example purposes only; remove all lines below from your final project.
         graphics2d.setColor(Color.GREEN);
-        graphics2d.fillRect(12, 13, 200, 400);
+        graphics2d.fillRect(-120, -120, 200, 400);
 
         // Outlined rectangle
         graphics2d.setStroke(new BasicStroke(5));
@@ -31,5 +31,11 @@ public class PaintCanvas extends JComponent {
         graphics2d.setStroke(stroke);
         graphics2d.setColor(Color.BLACK);
         graphics2d.drawRect(7, 8, 210, 410);
+
+//
+//        graphics2d.setColor(Color.YELLOW);
+//        graphics2d.fillOval(100,50,100,100);
+
+
     }
 }
