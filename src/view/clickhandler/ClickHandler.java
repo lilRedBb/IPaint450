@@ -18,6 +18,8 @@ public class ClickHandler extends MouseAdapter {
     private IApplicationState applicationState;
 
     private RunCommand runCommand;
+
+    private DrawFatherCommand icmd;
     public ClickHandler(PaintCanvas paintCanvas, IApplicationState applicationState)
     {
         this.paintCanvas = paintCanvas;
@@ -40,7 +42,7 @@ public class ClickHandler extends MouseAdapter {
         endPoint.y = e.getY();
 
         //declare a DrawAll object(extends by different shape drawing classes) for strategy-model-design later
-        DrawFatherCommand icmd;
+
 
         // based on applicationState, there are 3 functions so far:(select,draw,move);If-else statement to create
         //3 branches

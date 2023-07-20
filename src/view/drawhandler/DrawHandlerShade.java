@@ -32,6 +32,14 @@ public class DrawHandlerShade implements IDrawForAllShade {
         this.graphics2D =graphics2D;
         this.startPoint = new Point();
         this.endPoint = new Point();
+        this.color = color;
+        this.color2 = color2;
+        this.width = Math.abs(endPoint.x - startPoint.x);
+        this.height = Math.abs(endPoint.y - startPoint.y);
+        this.xPoints = new int[]{startPoint.x, endPoint.x, startPoint.x};
+        this.yPoints = new int[]{startPoint.y, endPoint.y, endPoint.y};
+        this.graphics2D.setColor(color);
+        this.graphics2D.setStroke(new BasicStroke(5));
 
         //handle 4 different drawing directions
         if (startPoint.x<endPoint.x&&startPoint.y< endPoint.y){
@@ -55,14 +63,7 @@ public class DrawHandlerShade implements IDrawForAllShade {
             this.startPoint.x = startPoint.x;
         }
 
-        this.color = color;
-        this.color2 = color2;
-        this.width = Math.abs(endPoint.x - startPoint.x);
-        this.height = Math.abs(endPoint.y - startPoint.y);
-        this.xPoints = new int[]{startPoint.x, endPoint.x, startPoint.x};
-        this.yPoints = new int[]{startPoint.y, endPoint.y, endPoint.y};
-        this.graphics2D.setColor(color);
-        this.graphics2D.setStroke(new BasicStroke(5));
+
 
 
     }

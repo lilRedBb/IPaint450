@@ -11,6 +11,8 @@
 - Redo last action(done)
 - Selected shapes have dashed outline(done)
 - fixed bugs for cannot draw from other directions(done)
+- strategy pattern: In ClickHandler ==> A DrawFatherCommand will mutate according to shape, and be injected into an RunCommand
+- state pattern: In DrawOval,DrawRect,DrawTriangleCommands ==> A DrawHandler will mutate according to shading types
 
 
 - Copy selected shapes

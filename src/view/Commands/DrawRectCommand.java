@@ -8,6 +8,7 @@ import view.rectBranch.RectOutline;
 import model.interfaces.IApplicationState;
 import view.gui.PaintCanvas;
 import model.persistence.Point;
+import view.rectBranch.RectSelected;
 
 
 /**
@@ -32,7 +33,7 @@ public class DrawRectCommand extends DrawFatherCommand {
     public void run() {
 
         if(getIsSelected()){
-            idrawRect = new OvalSelected(graphics2d,startPoint,endPoint,color,color2);
+            idrawRect = new RectSelected(graphics2d,startPoint,endPoint,color,color2);
             idrawRect.Draw();
 
         }
