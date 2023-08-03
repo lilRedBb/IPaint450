@@ -40,12 +40,8 @@ public class DrawFatherCommand implements IUndoable, ICommand,Cloneable {
 
         this.graphics2d = PaintCanvas.get2D();
 
-        this.startPoint = new Point();
-        this.endPoint = new Point();
-        this.startPoint.x = startPoint.x;
-        this.endPoint.x = endPoint.x;
-        this.startPoint.y = startPoint.y;
-        this.endPoint.y = endPoint.y;
+        this.startPoint = new Point(startPoint.x, startPoint.y);
+        this.endPoint = new Point(endPoint.x, endPoint.y);
 
         String colorString = appstate.getActivePrimaryColor().toString();
         this.color = ColorUtil.getColor(colorString);

@@ -22,14 +22,11 @@ public class PasteCommand implements ICommand,IUndoable {
     Stack<IUndoable> pasteStack;
     Stack<IUndoable> copyStack;
 
-//    Graphics2D graphics2d;
-
 
     int offSet;
 
     public PasteCommand(){
 
-//        this.graphics2d = PaintCanvas.get2D();
         this.pasteStack = new Stack<>();
         this.copyStack = CommandHistory.getCopyStack();
         this.offSet = new Random().nextInt(300)+50;
