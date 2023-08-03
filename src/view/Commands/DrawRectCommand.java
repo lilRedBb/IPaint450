@@ -21,9 +21,9 @@ public class DrawRectCommand extends DrawFatherCommand {
     DrawHandlerShade idrawRect;
 
 
-    public DrawRectCommand(PaintCanvas pc, Point startPoint, Point endPoint, IApplicationState appstate) {
+    public DrawRectCommand(Point startPoint, Point endPoint, IApplicationState appstate) {
 
-        super(pc,startPoint,endPoint,appstate);
+        super(startPoint,endPoint,appstate);
 
 
     }
@@ -52,13 +52,11 @@ public class DrawRectCommand extends DrawFatherCommand {
         }
 
 
-
-
-
-
-
     }
 
-
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
 }
 

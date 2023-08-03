@@ -41,25 +41,26 @@ public class ClickHandler extends MouseAdapter {
         endPoint.x = e.getX();
         endPoint.y = e.getY();
 
-        //declare a DrawAll object(extends by different shape drawing classes) for strategy-model-design later
 
 
         // based on applicationState, there are 3 functions so far:(select,draw,move);If-else statement to create
         //3 branches
 
         if (this.applicationState.getActiveMouseMode().toString().equals("SELECT")){
-            SelectCommand.SelectOtherShapes(paintCanvas,startPoint,endPoint);
+            paintCanvas.repaint();
+            SelectCommand.SelectOtherShapes(startPoint,endPoint);
 
         //for draw functions, mutate the "icmd" object to draw different shape according to applicationState
         }else if(this.applicationState.getActiveMouseMode().toString().equals("DRAW")) {
+
             if (this.applicationState.getActiveShapeType().toString().equals("ELLIPSE")){
-                icmd = new DrawOvalCommand(paintCanvas, startPoint, endPoint,applicationState);
+                icmd = new DrawOvalCommand( startPoint, endPoint,applicationState);
 
             } else if (this.applicationState.getActiveShapeType().toString().equals("TRIANGLE")) {
-                icmd = new DrawTriangleCommand(paintCanvas, startPoint, endPoint,applicationState);
+                icmd = new DrawTriangleCommand(startPoint, endPoint,applicationState);
 
             }else {
-                icmd = new DrawRectCommand(paintCanvas, startPoint, endPoint,applicationState);
+                icmd = new DrawRectCommand( startPoint, endPoint,applicationState);
 
             }
         //after the mutation, draw the shape
@@ -69,9 +70,11 @@ public class ClickHandler extends MouseAdapter {
 
         //move function, mutate the "icmd" object to move-command
         }else {
-            icmd = new MoveCommand(paintCanvas, startPoint, endPoint,applicationState);
+            icmd = new MoveCommand(startPoint, endPoint,applicationState);
 
             runCommand = new RunCommand(icmd);
+
+            paintCanvas.repaint();
 
             runCommand.execute();
 

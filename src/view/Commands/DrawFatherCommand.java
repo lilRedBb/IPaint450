@@ -1,5 +1,6 @@
 package view.Commands;
 
+import view.drawhandler.DrawHandlerShade;
 import view.interfaces.IUndoable;
 import model.interfaces.IApplicationState;
 import model.persistence.ColorUtil;
@@ -14,16 +15,14 @@ import java.util.Stack;
  * @author lilred
  * @date 2023/07/13
  **/
-public class DrawFatherCommand implements IUndoable, ICommand {
+public class DrawFatherCommand implements IUndoable, ICommand,Cloneable {
     //inherited by DrawOval,DrawRect,DrawTriangle,MoveCommand
-    PaintCanvas pc;  //take in the shared PaintCanvas
+
     IApplicationState appstate; //take in the shared IApplicationState
     Point startPoint;   //take in Point object from ClickHandler
     Point endPoint;     //take in Point object from ClickHandler
 
     Graphics2D graphics2d; //take in shared Graphics2D
-
-    Graphics g;
 
     Color color;  //Color object generated from IApplicationState's primary color
     Color color2; //Color object generated from IApplicationState's secondary color
@@ -35,11 +34,11 @@ public class DrawFatherCommand implements IUndoable, ICommand {
     boolean IsDrawCommand=true; //if this command's function is to draw a shape
 
 
-    public DrawFatherCommand(PaintCanvas pc, Point startPoint, Point endPoint, IApplicationState appstate) {
-        this.pc = pc;
+    public DrawFatherCommand( Point startPoint, Point endPoint, IApplicationState appstate) {
+
         this.appstate = appstate;
-        this.g = pc.getGraphics();
-        this.graphics2d = (Graphics2D)g;
+
+        this.graphics2d = PaintCanvas.get2D();
 
         this.startPoint = new Point();
         this.endPoint = new Point();
@@ -57,7 +56,6 @@ public class DrawFatherCommand implements IUndoable, ICommand {
 
 
 
-
     }
 
 
@@ -68,6 +66,7 @@ public class DrawFatherCommand implements IUndoable, ICommand {
     //add this DrawAll object to CommandHistory's undoStack, become a history command
     public void addToHistory() {
         CommandHistory.add(this);
+        System.out.println("undostack"+CommandHistory.getUndoStack().size());
 
     }
 
@@ -76,12 +75,7 @@ public class DrawFatherCommand implements IUndoable, ICommand {
     @Override
     public void undo(Stack<IUndoable> undoStack, Stack<IUndoable> redoStack) {
 
-        pc.paint(graphics2d);
-
-        for (IUndoable drawCommand : undoStack) {
-
-            drawCommand.run();
-        }
+        CommandHistory.reDrawUndoStack();
         System.out.println("undo");
 
     }
@@ -91,10 +85,7 @@ public class DrawFatherCommand implements IUndoable, ICommand {
     @Override
     public void redo(Stack<IUndoable> undoStack, Stack<IUndoable> redoStack) {
 
-        pc.paint(graphics2d);
-        for (IUndoable drawCommand : undoStack) {
-            drawCommand.run();
-        }
+        CommandHistory.reDrawUndoStack();
         System.out.println("redo");
     }
 
@@ -112,6 +103,11 @@ public class DrawFatherCommand implements IUndoable, ICommand {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public void setIsDrawCommand(boolean drawable) {
+        this.IsDrawCommand = drawable;
     }
 
     @Override
@@ -147,4 +143,18 @@ public class DrawFatherCommand implements IUndoable, ICommand {
     public void run() {
 
     }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        DrawFatherCommand cloned = (DrawFatherCommand) super.clone();
+
+        // Clone the Point objects since they are mutable
+        cloned.startPoint = new Point(startPoint.x, startPoint.y);
+        cloned.endPoint = new Point(endPoint.x, endPoint.y);
+
+
+        return cloned;
+    }
+
+
 }

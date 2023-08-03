@@ -6,6 +6,29 @@ import java.awt.event.MouseEvent;
 
 public class PaintCanvas extends JComponent {
 
+    private static PaintCanvas pc;
+
+    private PaintCanvas(){};
+
+    public static PaintCanvas getInstance() {
+        if (pc == null) {
+            // Create the instance only if it doesn't exist yet
+            pc = new PaintCanvas();
+        }
+        return pc;
+    }
+
+    public static Graphics2D get2D() {
+        if (pc == null) {
+            // Create the instance only if it doesn't exist yet
+            pc = new PaintCanvas();
+        }
+        Graphics g =  pc.getGraphics();
+        Graphics2D graphics2D = (Graphics2D)g;
+        return graphics2D;
+    }
+
+
     @Override
     public void paint(Graphics g) {
 
@@ -32,10 +55,13 @@ public class PaintCanvas extends JComponent {
         graphics2d.setColor(Color.BLACK);
         graphics2d.drawRect(7, 8, 210, 410);
 
-//
-//        graphics2d.setColor(Color.YELLOW);
-//        graphics2d.fillOval(100,50,100,100);
 
 
+    }
+
+    public void repaint(){
+        Graphics g = pc.getGraphics();
+        Graphics2D graphics2d = (Graphics2D)g;
+        paint(graphics2d);
     }
 }

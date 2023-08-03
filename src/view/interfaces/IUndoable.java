@@ -14,6 +14,8 @@ public interface IUndoable {
 
     void setIsSelectedF(); //deselected an IUndoable object
 
+    void setIsDrawCommand(boolean drawable); //set a shape to Drawable/UnDrawable
+
     boolean getIsSelected();   //to tell if an IUndoable object is selected by select movement
     void run();
 }

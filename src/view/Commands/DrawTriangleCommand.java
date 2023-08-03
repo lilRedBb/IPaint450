@@ -19,9 +19,9 @@ public class DrawTriangleCommand extends DrawFatherCommand {
     DrawHandlerShade idraw;
 
 
-    public DrawTriangleCommand(PaintCanvas pc, Point startPoint, Point endPoint, IApplicationState appstate) {
+    public DrawTriangleCommand( Point startPoint, Point endPoint, IApplicationState appstate) {
 
-        super(pc,startPoint,endPoint,appstate);
+        super(startPoint,endPoint,appstate);
 
 
 
@@ -51,5 +51,8 @@ public class DrawTriangleCommand extends DrawFatherCommand {
 
     }
 
-
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
 }

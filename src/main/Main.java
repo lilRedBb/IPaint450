@@ -3,6 +3,7 @@ package main;
 import controller.JPaintController;
 import model.persistence.ApplicationState;
 import view.clickhandler.ClickHandler;
+import view.gui.GetPaintCanvas;
 import view.gui.Gui;
 import view.gui.GuiWindow;
 import view.gui.PaintCanvas;
@@ -13,7 +14,8 @@ import view.interfaces.IUiModule;
 
 public class Main {
     public static void main(String[] args){
-        PaintCanvas paintCanvas = new PaintCanvas();
+
+        PaintCanvas paintCanvas = PaintCanvas.getInstance();
 
         IGuiWindow guiWindow = new GuiWindow(paintCanvas);
         IUiModule uiModule = new Gui(guiWindow);
@@ -23,7 +25,7 @@ public class Main {
         new JPaintController(uiModule, appState);
 
         ClickHandler clickHandler = new ClickHandler(paintCanvas,appState);
-//        System.out.println("moving");
+
         paintCanvas.addMouseListener(clickHandler);
 
 

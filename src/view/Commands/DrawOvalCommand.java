@@ -19,8 +19,8 @@ public class DrawOvalCommand extends DrawFatherCommand {
     DrawHandlerShade idrawOval;
 
 
-    public DrawOvalCommand(PaintCanvas pc, Point startPoint, Point endPoint, IApplicationState appstate) {
-        super(pc,startPoint,endPoint,appstate);
+    public DrawOvalCommand( Point startPoint, Point endPoint, IApplicationState appstate) {
+        super(startPoint,endPoint,appstate);
 
 
 
@@ -50,5 +50,8 @@ public class DrawOvalCommand extends DrawFatherCommand {
 
     }
 
-
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
 }

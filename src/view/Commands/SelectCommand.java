@@ -14,7 +14,7 @@ import java.util.Stack;
  **/
 public class SelectCommand {
 
-    public static void SelectOtherShapes(PaintCanvas pc, Point startPoint, Point endPoint){
+    public static void SelectOtherShapes( Point startPoint, Point endPoint){
 
         //calculate the min,max coordinates from this select movement
 
@@ -27,6 +27,7 @@ public class SelectCommand {
         //iterate through every history draw command, call the compareXY method to tell whether the history shape is
         // inside the scope of this select movement; change the shape's IsSelected according to compareXY's return value.
         Stack<IUndoable> undostack = CommandHistory.getUndoStack();
+
         for (IUndoable existShape: undostack ){
 
             if(existShape.compareXY(thisMaxX,thisMinX,thisMaxY,thisMinY)){
@@ -37,16 +38,8 @@ public class SelectCommand {
             }
         }
 
-        //after resetting the properties of selected history commands, repaint
-        Graphics g = pc.getGraphics();
-        Graphics2D graphics2d;
-        graphics2d = (Graphics2D)g;
-        pc.paint(graphics2d);
-
-        for (IUndoable existShape: undostack){
-
-            existShape.run();
-        }
+        //redraw
+        CommandHistory.reDrawUndoStack();
     }
 
 }

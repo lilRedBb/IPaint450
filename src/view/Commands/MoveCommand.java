@@ -16,9 +16,11 @@ public class MoveCommand extends DrawFatherCommand {
     int offSetX; //offset of this mouse movement
     int offSetY; //offset of this mouse movement
 
+
+
     //set this.IsDrawCommand false, so it won't be run during undo method
-    public MoveCommand(PaintCanvas pc, Point startPoint, Point endPoint, IApplicationState appstate) {
-        super(pc,startPoint,endPoint,appstate);
+    public MoveCommand( Point startPoint, Point endPoint, IApplicationState appstate) {
+        super(startPoint,endPoint,appstate);
         this.IsDrawCommand = false;
         this.offSetX = this.endPoint.x-this.startPoint.x;
         this.offSetY = this.endPoint.y-this.startPoint.y;
@@ -28,32 +30,29 @@ public class MoveCommand extends DrawFatherCommand {
     @Override
     public void run() {
         Stack<IUndoable> undoStack = CommandHistory.getUndoStack();
-        pc.paint(graphics2d);
+
         for (IUndoable history: undoStack){
             if (history.getIsSelected()){
                 history.addOffset(offSetX,offSetY);
             }
-            if (history.getIsDrawCommand()){
-                history.run();
-            }
-
         }
+
+        CommandHistory.reDrawUndoStack();
     }
 
     //undo() method will iterate undoStack and resume the selected shapes' coordinates, and draw the resumed shapes
     @Override
     public void undo(Stack<IUndoable> undoStack, Stack<IUndoable> redoStack) {
 
-        pc.paint(graphics2d);
+
+
         for (IUndoable history: undoStack){
             if (history.getIsSelected()){
                 history.addOffset(-offSetX,-offSetY);
             }
-            if (history.getIsDrawCommand()){
-                history.run();
-            }
-
         }
+
+        CommandHistory.reDrawUndoStack();
         System.out.println("undo");
     }
 

@@ -14,10 +14,18 @@
 - strategy pattern: In ClickHandler ==> A DrawFatherCommand will mutate according to shape, and be injected into an RunCommand
 - state pattern: In DrawOval,DrawRect,DrawTriangleCommands ==> A DrawHandler will mutate according to shading types
 
+------------third checkin
 
-- Copy selected shapes
-- Paste copied shapes
-- Delete selected shapes
+- Copy selected shapes(done) (in CopyCommand: using a global copy-stack to point to the selected shapes )
+- Paste copied shapes(done) (in PasteCommand: using deep-copy to add more instances to the mains stack)
+- Delete selected shapes(done) (in DeleteCommand: using local stack to point to selected shapes, modify their visibility)
+
+- singleton pattern: PaintCanvas Class encapsulate Canvas returning method and repaint method.
+- singleton pattern: CommandHistory Class encapsulate "redraw-main-stack" function, reduce redundancy in other classes. 
+- abstract class pattern: DrawFatherCommand Class is the abstract class to encapsulate shared fields and methods;
+
+--------------fourth checkin
+
 - Group selected shapes
 - Ungroup selected shapes
 

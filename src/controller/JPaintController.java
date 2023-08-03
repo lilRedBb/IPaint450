@@ -2,19 +2,25 @@ package controller;
 
 import controller.interfaces.IJPaintController;
 import model.interfaces.IApplicationState;
+import view.Commands.*;
 import view.EventName;
-import view.Commands.RedoCommand;
-import view.Commands.UndoCommand;
+import view.gui.PaintCanvas;
 import view.interfaces.ICommand;
 import view.interfaces.IUiModule;
+import view.interfaces.IUndoable;
+
+import java.util.Stack;
 
 public class JPaintController implements IJPaintController {
     private final IUiModule uiModule;
     private final IApplicationState applicationState;
 
+    private PaintCanvas pc;
+
     public JPaintController(IUiModule uiModule, IApplicationState applicationState) {
         this.uiModule = uiModule;
         this.applicationState = applicationState;
+        this.pc = PaintCanvas.getInstance();
         setupEvents();
     }
 
@@ -35,21 +41,35 @@ public class JPaintController implements IJPaintController {
 
     private void undo() {
         ICommand undoCommand = new UndoCommand();
+        pc.repaint();
         undoCommand.run();
     }
 
     private void redo() {
         ICommand redoCommand = new RedoCommand();
+        pc.repaint();
         redoCommand.run();
     }
 
     private void copy() {
+        ICommand copyCommand = new CopyCommand();
+        copyCommand.run();
+        copyCommand.addToHistory();
     }
 
     private void paste() {
+
+        ICommand pasteCommand = new PasteCommand();
+        pc.repaint();
+        pasteCommand.run();
+
     }
 
     private void delete() {
+        ICommand deleteCommand = new DeleteCommand();
+        pc.repaint();
+        deleteCommand.run();
+        deleteCommand.addToHistory();
     }
 
     private void group() {
