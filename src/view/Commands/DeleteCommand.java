@@ -16,12 +16,14 @@ public class DeleteCommand implements IUndoable, ICommand {
     Stack<IUndoable> deleteStack;
 
 
-
+    //each delete command has its local delete-stack pointing to selected shapes in main-stack
     public DeleteCommand(){
         this.deleteStack = new Stack<>();
 
     }
 
+
+    //set the shapes who are pointed by delete-stack invisible
     @Override
     public void run() {
         Stack<IUndoable> undoStack = CommandHistory.getUndoStack();
@@ -32,7 +34,29 @@ public class DeleteCommand implements IUndoable, ICommand {
             }
         }
 
-        CommandHistory.reDrawUndoStack();
+    }
+
+    // resume visibility
+    @Override
+    public void undo(Stack<IUndoable> undoStack, Stack<IUndoable> redoStack) {
+
+        for (IUndoable deletedShapes:deleteStack){
+
+            deletedShapes.setIsDrawCommand(true);
+
+        }
+
+
+    }
+
+
+    @Override
+    public void redo(Stack<IUndoable> undoStack, Stack<IUndoable> redoStack) {
+        for (IUndoable deletedShapes:deleteStack){
+
+            deletedShapes.setIsDrawCommand(false);
+
+        }
 
 
 
@@ -43,30 +67,7 @@ public class DeleteCommand implements IUndoable, ICommand {
         CommandHistory.add(this);
     }
 
-    @Override
-    public void undo(Stack<IUndoable> undoStack, Stack<IUndoable> redoStack) {
 
-        for (IUndoable deletedShapes:deleteStack){
-
-            deletedShapes.setIsDrawCommand(true);
-
-        }
-
-        CommandHistory.reDrawUndoStack();
-    }
-
-    @Override
-    public void redo(Stack<IUndoable> undoStack, Stack<IUndoable> redoStack) {
-        for (IUndoable deletedShapes:deleteStack){
-
-            deletedShapes.setIsDrawCommand(false);
-
-        }
-
-        CommandHistory.reDrawUndoStack();
-
-
-    }
 
     @Override
     public boolean compareXY(int maxX, int minX, int maxY, int minY) {

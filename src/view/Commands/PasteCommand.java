@@ -22,19 +22,20 @@ public class PasteCommand implements ICommand,IUndoable {
     Stack<IUndoable> pasteStack;
     Stack<IUndoable> copyStack;
 
-
     int offSet;
 
+    //each paste command has its local paste-stack which is cloned from the selected shapes
     public PasteCommand(){
 
         this.pasteStack = new Stack<>();
         this.copyStack = CommandHistory.getCopyStack();
         this.offSet = new Random().nextInt(300)+50;
 
+        //clone shapes from the copy stack
+
         for (IUndoable item : copyStack) {
             
             try {
-                // Clone the DrawOvalCommand object and add it to the new stack of deep copies
                 DrawFatherCommand cmd = (DrawFatherCommand)((DrawFatherCommand)item).clone();
                 pasteStack.add(cmd);
             } catch (CloneNotSupportedException e) {
@@ -52,19 +53,47 @@ public class PasteCommand implements ICommand,IUndoable {
 
     }
 
+    //run method will add cloned shapes to main stack, and add the paste action in the final
     @Override
     public void run() {
+
         Stack<IUndoable> undoStack = CommandHistory.getUndoStack();
         if (!pasteStack.empty()){
 
             undoStack.addAll(pasteStack);
-            System.out.println(pasteStack.size());
+
+
+        }
+        CommandHistory.add(this);
+        System.out.println("paste");
+
+    }
+
+    //paste action's undo will delete number of shapes from the main stack, number = local paste-stack's length
+    @Override
+    public void undo(Stack<IUndoable> undoStack, Stack<IUndoable> redoStack) {
+
+        int pasteNum = pasteStack.size();
+        for (int i=0;i<pasteNum;i++){
+            undoStack.pop();
+        }
+
+    }
+
+
+    // redo will add the concat local paste-stack back to main stack
+    @Override
+    public void redo(Stack<IUndoable> undoStack, Stack<IUndoable> redoStack) {
+
+        undoStack.pop();
+
+        if (!pasteStack.empty()){
+
+            undoStack.addAll(pasteStack);
 
         }
 
-        CommandHistory.reDrawUndoStack();
-        CommandHistory.add(this);
-        System.out.println("paste");
+        undoStack.push(this);
 
     }
 
@@ -75,34 +104,7 @@ public class PasteCommand implements ICommand,IUndoable {
         }
     }
 
-    @Override
-    public void undo(Stack<IUndoable> undoStack, Stack<IUndoable> redoStack) {
 
-        int pasteNum = pasteStack.size();
-        for (int i=0;i<pasteNum;i++){
-            undoStack.pop();
-        }
-
-        CommandHistory.reDrawUndoStack();
-    }
-
-    @Override
-    public void redo(Stack<IUndoable> undoStack, Stack<IUndoable> redoStack) {
-
-        undoStack.pop();
-
-        if (!pasteStack.empty()){
-
-            undoStack.addAll(pasteStack);
-            System.out.println(pasteStack.size());
-
-        }
-
-        addToHistory();
-
-        CommandHistory.reDrawUndoStack();
-
-    }
 
     @Override
     public boolean compareXY(int maxX, int minX, int maxY, int minY) {

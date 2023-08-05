@@ -15,12 +15,25 @@ public class CopyCommand implements ICommand, IUndoable {
     Stack<IUndoable> copyStack;
 
 
-
+    //copy command simply just update the selected shapes in the main stack to copy stack
     public CopyCommand() {
 
         undoStack = CommandHistory.getUndoStack();
         copyStack = CommandHistory.getCopyStack();
 
+    }
+
+
+    @Override
+    public void run() {
+
+        copyStack.clear();
+        for (IUndoable drawCommand:undoStack){
+            if (drawCommand.getIsSelected()){
+                copyStack.push(drawCommand);
+            }
+        }
+        System.out.println("copy");
     }
 
     @Override
@@ -36,18 +49,6 @@ public class CopyCommand implements ICommand, IUndoable {
     @Override
     public void addToHistory() {
         CommandHistory.add(this);
-    }
-
-    @Override
-    public void run() {
-
-        copyStack.clear();
-        for (IUndoable drawCommand:undoStack){
-            if (drawCommand.getIsSelected()){
-                copyStack.push(drawCommand);
-            }
-        }
-        System.out.println("copy");
     }
 
     @Override

@@ -37,7 +37,6 @@ public class MoveCommand extends DrawFatherCommand {
             }
         }
 
-        CommandHistory.reDrawUndoStack();
     }
 
     //undo() method will iterate undoStack and resume the selected shapes' coordinates, and draw the resumed shapes
@@ -52,7 +51,7 @@ public class MoveCommand extends DrawFatherCommand {
             }
         }
 
-        CommandHistory.reDrawUndoStack();
+
         System.out.println("undo");
     }
 

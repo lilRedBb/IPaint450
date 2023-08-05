@@ -49,6 +49,7 @@ public class ClickHandler extends MouseAdapter {
         if (this.applicationState.getActiveMouseMode().toString().equals("SELECT")){
             paintCanvas.repaint();
             SelectCommand.SelectOtherShapes(startPoint,endPoint);
+            CommandHistory.reDrawUndoStack();
 
         //for draw functions, mutate the "icmd" object to draw different shape according to applicationState
         }else if(this.applicationState.getActiveMouseMode().toString().equals("DRAW")) {
@@ -63,7 +64,8 @@ public class ClickHandler extends MouseAdapter {
                 icmd = new DrawRectCommand( startPoint, endPoint,applicationState);
 
             }
-        //after the mutation, draw the shape
+
+            //draw the shape
             runCommand = new RunCommand(icmd);
 
             runCommand.execute();
@@ -77,6 +79,8 @@ public class ClickHandler extends MouseAdapter {
             paintCanvas.repaint();
 
             runCommand.execute();
+
+            CommandHistory.reDrawUndoStack();
 
 
         }

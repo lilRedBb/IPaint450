@@ -8,6 +8,7 @@ import view.gui.PaintCanvas;
 import view.interfaces.ICommand;
 import view.interfaces.IUiModule;
 import view.interfaces.IUndoable;
+import view.Commands.CommandHistory;
 
 import java.util.Stack;
 
@@ -43,12 +44,15 @@ public class JPaintController implements IJPaintController {
         ICommand undoCommand = new UndoCommand();
         pc.repaint();
         undoCommand.run();
+        CommandHistory.reDrawUndoStack();
+
     }
 
     private void redo() {
         ICommand redoCommand = new RedoCommand();
         pc.repaint();
         redoCommand.run();
+        CommandHistory.reDrawUndoStack();
     }
 
     private void copy() {
@@ -62,6 +66,7 @@ public class JPaintController implements IJPaintController {
         ICommand pasteCommand = new PasteCommand();
         pc.repaint();
         pasteCommand.run();
+        CommandHistory.reDrawUndoStack();
 
     }
 
@@ -70,6 +75,7 @@ public class JPaintController implements IJPaintController {
         pc.repaint();
         deleteCommand.run();
         deleteCommand.addToHistory();
+        CommandHistory.reDrawUndoStack();
     }
 
     private void group() {

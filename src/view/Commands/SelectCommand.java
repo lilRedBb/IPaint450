@@ -38,8 +38,7 @@ public class SelectCommand {
             }
         }
 
-        //redraw
-        CommandHistory.reDrawUndoStack();
+
     }
 
 }

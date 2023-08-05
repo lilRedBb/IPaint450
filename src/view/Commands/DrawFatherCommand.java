@@ -62,7 +62,7 @@ public class DrawFatherCommand implements IUndoable, ICommand,Cloneable {
     //add this DrawAll object to CommandHistory's undoStack, become a history command
     public void addToHistory() {
         CommandHistory.add(this);
-        System.out.println("undostack"+CommandHistory.getUndoStack().size());
+
 
     }
 
@@ -71,7 +71,6 @@ public class DrawFatherCommand implements IUndoable, ICommand,Cloneable {
     @Override
     public void undo(Stack<IUndoable> undoStack, Stack<IUndoable> redoStack) {
 
-        CommandHistory.reDrawUndoStack();
         System.out.println("undo");
 
     }
@@ -81,7 +80,6 @@ public class DrawFatherCommand implements IUndoable, ICommand,Cloneable {
     @Override
     public void redo(Stack<IUndoable> undoStack, Stack<IUndoable> redoStack) {
 
-        CommandHistory.reDrawUndoStack();
         System.out.println("redo");
     }
 

@@ -41,27 +41,9 @@ public class DrawHandlerShade implements IDrawForAllShade {
         this.graphics2D.setColor(color);
         this.graphics2D.setStroke(new BasicStroke(5));
 
-        //handle 4 different drawing directions
-        if (startPoint.x<endPoint.x&&startPoint.y< endPoint.y){
-
-            this.startPoint = startPoint;
-            this.endPoint=endPoint;
-        } else if (startPoint.x>endPoint.x&&startPoint.y> endPoint.y) {
-
-            this.startPoint = endPoint;
-            this.endPoint = endPoint;
-
-        }else if (startPoint.x>endPoint.x&&startPoint.y< endPoint.y){
-
-            this.endPoint = endPoint;
-            this.startPoint.y = startPoint.y;;
-            this.startPoint.x = endPoint.x;
-        }else {
-
-            this.endPoint = endPoint;
-            this.startPoint.y = endPoint.y;;
-            this.startPoint.x = startPoint.x;
-        }
+        DrawDirections.PairPoints pp = new DrawDirections().fixPoints(startPoint,endPoint);
+        this.startPoint = pp.first;
+        this.endPoint = pp.second;
 
 
 
