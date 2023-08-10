@@ -84,4 +84,37 @@ public class ApplicationState implements IApplicationState {
         activeShapeShadingType = ShapeShadingType.FILLED_IN;
         activeMouseMode = MouseMode.DRAW;
     }
+
+    @Override
+    public boolean InSelectMode(){
+        if (getActiveMouseMode().toString().equals("SELECT")){
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean InDrawMode() {
+        if (getActiveMouseMode().toString().equals("DRAW")){
+            return true;
+        }
+        return false;
+    }
+
+
+    @Override
+    public boolean drawTriangle() {
+        if (getActiveShapeType().toString().equals("TRIANGLE")){
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean drawCircle() {
+        if (getActiveShapeType().toString().equals("ELLIPSE")){
+            return true;
+        }
+        return false;
+    }
 }

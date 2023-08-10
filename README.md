@@ -26,8 +26,32 @@
 
 --------------fourth checkin
 
-- Group selected shapes
-- Ungroup selected shapes
+- Group selected shapes(done)
+- Ungroup selected shapes(done)
+- pattern: decorative pattern used in SelectGroupCommand & RefreshCanvas(GUI package)
+- changes: 
+- in Commands package
+- DrawFatherCommand added 2 fields, "belongGroups"&"historyGroups", for shape to journal its group.
+- DrawFatherCommand added 1 fields, "showAsSelected"; when group is selected, all members are also selected, but only group showAsSelected.
+- DrawFatherCommand added 1 public function "addOrPopMyGroup", for shapes to comply with group/ungroup action. 
+- /
+- GroupCommand added 2 fields, "myMembers"&"historyMembers", for group to journal its members.
+- GroupCommand has two constructors: 1 for new group created, 1 for old group being pasted.
+- GroupCommand public function "addOrPopMyMembers", for Groups to comply with group/ungroup action.
+- GroupCommand public function "membersClone", comply with pasteCommand to paste a group.
+- /
+- UnGroupCommand: by manipulating the journal List in both shape and group, achieve ungroup action.
+- /
+- SelectGroupCommand: as decorator for SelectCommand, when shapes and their groups are selected at the same time, un-select the groups.
+- /                   groups remain selected will select their member-shape, but, member shapes not showAsSelected.
+- /
+- PasteCommand: if were to copy a group, first create new groupCommand, then pass in the cloned-members.
+- in Persistence package
+- MakeGroupFrame: calculates group's members' coordinates and return (leftUpperMostPoint,rightDownerMostPoint).
+- in GUI package
+- RefreshCanvas: encapsulate the repaint action for all commands.
+
+
 
 #GitHubLink
 https://github.com/lilRedBb/IPaint450.git

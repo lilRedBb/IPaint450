@@ -35,7 +35,6 @@ public class PaintCanvas extends JComponent {
         Graphics2D graphics2d = (Graphics2D)g;
 
         // Draw all shapes here
-//        graphics2d.setBackground(Color.WHITE);
         graphics2d.setColor(Color.WHITE);
         graphics2d.fillRect(0, 0, getWidth(), getHeight());
 

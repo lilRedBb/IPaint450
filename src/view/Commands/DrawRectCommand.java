@@ -25,17 +25,15 @@ public class DrawRectCommand extends DrawFatherCommand {
 
         super(startPoint,endPoint,appstate);
 
-
     }
 
     //run() method uses state-model-pattern to draw shadeTypes.
     @Override
     public void run() {
 
-        if(getIsSelected()){
+        if(getShowAsSelected()){
             idrawRect = new RectSelected(graphics2d,startPoint,endPoint,color,color2);
             idrawRect.Draw();
-
         }
 
         if (this.shade.equals("OUTLINE")){

@@ -1,10 +1,12 @@
 package view.Commands;
 
+import model.persistence.LoopSetStatus;
 import view.interfaces.IUndoable;
 import model.interfaces.IApplicationState;
 import model.persistence.Point;
 import view.gui.PaintCanvas;
 
+import java.util.List;
 import java.util.Stack;
 
 /**
@@ -18,9 +20,10 @@ public class MoveCommand extends DrawFatherCommand {
 
 
 
-    //set this.IsDrawCommand false, so it won't be run during undo method
+    //move-command is invisible
     public MoveCommand( Point startPoint, Point endPoint, IApplicationState appstate) {
         super(startPoint,endPoint,appstate);
+
         this.IsDrawCommand = false;
         this.offSetX = this.endPoint.x-this.startPoint.x;
         this.offSetY = this.endPoint.y-this.startPoint.y;
@@ -29,13 +32,10 @@ public class MoveCommand extends DrawFatherCommand {
     //run() method will iterate the undoStack and alter the selected shapes' coordinates, and draw the altered shapes
     @Override
     public void run() {
-        Stack<IUndoable> undoStack = CommandHistory.getUndoStack();
+        List<IUndoable> selectedArray = CommandHistory.getSelectedShapes();
 
-        for (IUndoable history: undoStack){
-            if (history.getIsSelected()){
-                history.addOffset(offSetX,offSetY);
-            }
-        }
+        new LoopSetStatus(selectedArray).AddOffset(offSetX,offSetY);
+
 
     }
 
@@ -43,16 +43,11 @@ public class MoveCommand extends DrawFatherCommand {
     @Override
     public void undo(Stack<IUndoable> undoStack, Stack<IUndoable> redoStack) {
 
+        List<IUndoable> selectedArray = CommandHistory.getSelectedShapes();
+
+        new LoopSetStatus(selectedArray).AddOffset(-offSetX,-offSetY);
 
 
-        for (IUndoable history: undoStack){
-            if (history.getIsSelected()){
-                history.addOffset(-offSetX,-offSetY);
-            }
-        }
-
-
-        System.out.println("undo");
     }
 
 
@@ -61,6 +56,5 @@ public class MoveCommand extends DrawFatherCommand {
     @Override
     public void redo(Stack<IUndoable> undoStack, Stack<IUndoable> redoStack) {
         this.run();
-        System.out.println("redo");
     }
 }

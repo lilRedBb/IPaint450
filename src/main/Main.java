@@ -2,6 +2,7 @@ package main;
 
 import controller.JPaintController;
 import model.persistence.ApplicationState;
+import view.Commands.CommandHistory;
 import view.clickhandler.ClickHandler;
 import view.gui.GetPaintCanvas;
 import view.gui.Gui;
@@ -9,11 +10,15 @@ import view.gui.GuiWindow;
 import view.gui.PaintCanvas;
 import view.interfaces.IGuiWindow;
 import view.interfaces.IUiModule;
+import view.interfaces.IUndoable;
 
+import java.util.Stack;
 
 
 public class Main {
     public static void main(String[] args){
+
+
 
         PaintCanvas paintCanvas = PaintCanvas.getInstance();
 
@@ -27,6 +32,7 @@ public class Main {
         ClickHandler clickHandler = new ClickHandler(paintCanvas,appState);
 
         paintCanvas.addMouseListener(clickHandler);
+
 
 
     }

@@ -1,6 +1,7 @@
 package view.Commands;
 
 import model.interfaces.IApplicationState;
+import model.persistence.LoopSetStatus;
 import model.persistence.Point;
 import view.gui.GetPaintCanvas;
 import view.gui.PaintCanvas;
@@ -36,24 +37,33 @@ public class PasteCommand implements ICommand,IUndoable {
         for (IUndoable item : copyStack) {
             
             try {
-                DrawFatherCommand cmd = (DrawFatherCommand)((DrawFatherCommand)item).clone();
-                pasteStack.add(cmd);
+                if (item.IsGroupCommand()) {
+
+                    ArrayList<IUndoable> newShapes = ((GroupCommand) item).membersClone();
+                    GroupCommand cloned_groupCommand = new GroupCommand(newShapes);
+
+                    pasteStack.add(cloned_groupCommand );
+                    pasteStack.addAll(newShapes);
+
+                }else {
+                    DrawFatherCommand cloned_cmd = (DrawFatherCommand) ((DrawFatherCommand) item).clone();
+                    pasteStack.add(cloned_cmd);
+
+
+                }
             } catch (CloneNotSupportedException e) {
                 e.printStackTrace();
             }
          
         }
 
-        for (IUndoable pasteShape:pasteStack){
-            pasteShape.addOffset(offSet,offSet);
-            pasteShape.setIsSelectedF();
-        }
-
+        new LoopSetStatus(pasteStack).AddOffset(offSet,offSet);
+        new LoopSetStatus(pasteStack).SetBothSelection(false,false);
 
 
     }
 
-    //run method will add cloned shapes to main stack, and add the paste action in the final
+    //run method will add paste-stack to main stack.
     @Override
     public void run() {
 
@@ -77,7 +87,6 @@ public class PasteCommand implements ICommand,IUndoable {
         for (int i=0;i<pasteNum;i++){
             undoStack.pop();
         }
-
     }
 
 
@@ -90,9 +99,7 @@ public class PasteCommand implements ICommand,IUndoable {
         if (!pasteStack.empty()){
 
             undoStack.addAll(pasteStack);
-
         }
-
         undoStack.push(this);
 
     }
@@ -122,12 +129,7 @@ public class PasteCommand implements ICommand,IUndoable {
     }
 
     @Override
-    public void setIsSelectedT() {
-
-    }
-
-    @Override
-    public void setIsSelectedF() {
+    public void setIsSelected(boolean tf) {
 
     }
 
@@ -140,4 +142,53 @@ public class PasteCommand implements ICommand,IUndoable {
     public void setIsDrawCommand(boolean drawable) {
 
     }
+
+    @Override
+    public Point returnStartPoint() {
+        return null;
+    }
+
+    @Override
+    public Point returnEndPoint() {
+        return null;
+    }
+
+    @Override
+    public boolean IsGroupCommand() {
+        return false;
+    }
+
+    @Override
+    public void setShowAsSelected(boolean tf) {
+
+    }
+
+
+
+    @Override
+    public boolean getShowAsSelected() {
+        return false;
+    }
+
+    @Override
+    public IUndoable addOrPopMyGroup(IUndoable groupCommand, boolean tf) {
+        return null;
+    }
+
+    @Override
+    public void addOrPopMyMembers(IUndoable drawCommand, boolean tf) {
+
+    }
+
+    @Override
+    public ArrayList<IUndoable> returnMyGroup() {
+        return null;
+    }
+
+    @Override
+    public ArrayList<IUndoable> returnMembers() {
+        return null;
+    }
+
+
 }

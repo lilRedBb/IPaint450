@@ -1,10 +1,12 @@
 package view.Commands;
 
+import view.interfaces.ICommand;
 import view.interfaces.IUndoable;
 import model.persistence.Point;
 import view.gui.PaintCanvas;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Stack;
 
 
@@ -12,10 +14,20 @@ import java.util.Stack;
  * @author lilred
  * @date 2023/07/16
  **/
-public class SelectCommand {
+public class SelectCommand implements ICommand {
 
-    public static void SelectOtherShapes( Point startPoint, Point endPoint){
+    Point startPoint;
+    Point endPoint;
 
+
+    public SelectCommand(Point startPoint, Point endPoint){
+        this.startPoint = startPoint;
+        this.endPoint = endPoint;
+
+    }
+
+    public  Stack<IUndoable> SelectOtherShapes(){
+        Stack<IUndoable> preSelection = new Stack<>();
         //calculate the min,max coordinates from this select movement
 
         int thisMaxX = Math.max(startPoint.x, endPoint.x);
@@ -24,21 +36,36 @@ public class SelectCommand {
         int thisMinY = Math.min(startPoint.y, endPoint.y);
 
 
-        //iterate through every history draw command, call the compareXY method to tell whether the history shape is
-        // inside the scope of this select movement; change the shape's IsSelected according to compareXY's return value.
+        //iterate through main-stack, call each of the shapes' compareXY method to tell overlap with the selection.
+        // change the shape's selected status.
+
         Stack<IUndoable> undostack = CommandHistory.getUndoStack();
 
         for (IUndoable existShape: undostack ){
 
             if(existShape.compareXY(thisMaxX,thisMinX,thisMaxY,thisMinY)){
 
-                existShape.setIsSelectedT();
+                existShape.setIsSelected(true);
+                existShape.setShowAsSelected(true);
+                preSelection.add(existShape);
+
+
             }else {
-                existShape.setIsSelectedF();
+                existShape.setIsSelected(false);
+                existShape.setShowAsSelected(false);
             }
         }
 
+        return preSelection;
+    }
+
+    @Override
+    public void run() {
 
     }
 
+    @Override
+    public void addToHistory() {
+
+    }
 }

@@ -5,6 +5,7 @@ import model.interfaces.IApplicationState;
 import view.Commands.*;
 import view.EventName;
 import view.gui.PaintCanvas;
+import view.gui.RefreshCanvas;
 import view.interfaces.ICommand;
 import view.interfaces.IUiModule;
 import view.interfaces.IUndoable;
@@ -41,46 +42,67 @@ public class JPaintController implements IJPaintController {
     }
 
     private void undo() {
+
         ICommand undoCommand = new UndoCommand();
-        pc.repaint();
-        undoCommand.run();
-        CommandHistory.reDrawUndoStack();
+        new RefreshCanvas(undoCommand);
+
 
     }
 
     private void redo() {
+
         ICommand redoCommand = new RedoCommand();
-        pc.repaint();
-        redoCommand.run();
-        CommandHistory.reDrawUndoStack();
+        new RefreshCanvas(redoCommand);
+
     }
 
     private void copy() {
         ICommand copyCommand = new CopyCommand();
-        copyCommand.run();
+        try {
+            copyCommand.run();
+        }catch (NullPointerException e){
+            System.out.println("np");
+        }
+
         copyCommand.addToHistory();
     }
 
     private void paste() {
 
         ICommand pasteCommand = new PasteCommand();
-        pc.repaint();
-        pasteCommand.run();
-        CommandHistory.reDrawUndoStack();
+        new RefreshCanvas(pasteCommand);
 
     }
 
     private void delete() {
+
         ICommand deleteCommand = new DeleteCommand();
-        pc.repaint();
-        deleteCommand.run();
-        deleteCommand.addToHistory();
-        CommandHistory.reDrawUndoStack();
+        new RefreshCanvas(deleteCommand);
+
     }
 
     private void group() {
+        try {
+            ICommand groupCommand = new GroupCommand();
+            new RefreshCanvas(groupCommand);
+
+        } catch (NullPointerException e) {
+            System.out.println("current group has no member");
+        }
+
+
+
     }
 
     private void ungroup() {
+        try {
+            ICommand unGroupCommand = new UnGroupCommand();
+            new RefreshCanvas(unGroupCommand);
+        }catch (NullPointerException e){
+            System.out.println("this shape has no group");
+        }
+
+
     }
+
 }

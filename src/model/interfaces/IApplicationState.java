@@ -25,4 +25,12 @@ public interface IApplicationState {
     ShapeShadingType getActiveShapeShadingType();
 
     MouseMode getActiveMouseMode();
+
+    boolean InSelectMode();
+
+    boolean InDrawMode();
+
+    boolean drawCircle();
+
+    boolean drawTriangle();
 }

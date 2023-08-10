@@ -5,6 +5,7 @@ import model.interfaces.IApplicationState;
 import model.persistence.Point;
 import view.Commands.*;
 import view.gui.PaintCanvas;
+import view.gui.RefreshCanvas;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -19,7 +20,7 @@ public class ClickHandler extends MouseAdapter {
 
     private RunCommand runCommand;
 
-    private DrawFatherCommand icmd;
+    private DrawFatherCommand drawCmd;
     public ClickHandler(PaintCanvas paintCanvas, IApplicationState applicationState)
     {
         this.paintCanvas = paintCanvas;
@@ -38,56 +39,43 @@ public class ClickHandler extends MouseAdapter {
 
     @Override
     public void mouseReleased(MouseEvent e) {
+
         endPoint.x = e.getX();
         endPoint.y = e.getY();
 
 
+        // based on applicationState, there are 3 branches:(select,draw,move).
+        if (this.applicationState.InSelectMode()){
 
-        // based on applicationState, there are 3 functions so far:(select,draw,move);If-else statement to create
-        //3 branches
+            new RefreshCanvas(new SelectGroupCommand(new SelectCommand(startPoint,endPoint)));
 
-        if (this.applicationState.getActiveMouseMode().toString().equals("SELECT")){
-            paintCanvas.repaint();
-            SelectCommand.SelectOtherShapes(startPoint,endPoint);
-            CommandHistory.reDrawUndoStack();
 
-        //for draw functions, mutate the "icmd" object to draw different shape according to applicationState
-        }else if(this.applicationState.getActiveMouseMode().toString().equals("DRAW")) {
+        //draw: mutate the "drawCmd" object to draw different shape according to applicationState
+        }else if(this.applicationState.InDrawMode()) {
 
-            if (this.applicationState.getActiveShapeType().toString().equals("ELLIPSE")){
-                icmd = new DrawOvalCommand( startPoint, endPoint,applicationState);
+            if (this.applicationState.drawCircle()){
+                drawCmd = new DrawOvalCommand( startPoint, endPoint,applicationState);
 
-            } else if (this.applicationState.getActiveShapeType().toString().equals("TRIANGLE")) {
-                icmd = new DrawTriangleCommand(startPoint, endPoint,applicationState);
+            } else if (this.applicationState.drawTriangle()) {
+                drawCmd = new DrawTriangleCommand(startPoint, endPoint,applicationState);
 
             }else {
-                icmd = new DrawRectCommand( startPoint, endPoint,applicationState);
+                drawCmd = new DrawRectCommand( startPoint, endPoint,applicationState);
 
             }
 
-            //draw the shape
-            runCommand = new RunCommand(icmd);
+            //draw action start
+            runCommand = new RunCommand(drawCmd);
 
             runCommand.execute();
 
-        //move function, mutate the "icmd" object to move-command
+
+        //move:  mutate the "drawCmd" object to move-command
         }else {
-            icmd = new MoveCommand(startPoint, endPoint,applicationState);
 
-            runCommand = new RunCommand(icmd);
-
-            paintCanvas.repaint();
-
-            runCommand.execute();
-
-            CommandHistory.reDrawUndoStack();
-
+            drawCmd = new MoveCommand(startPoint, endPoint,applicationState);
+            new RefreshCanvas(drawCmd);
 
         }
-
-
-
-
-
     }
 }

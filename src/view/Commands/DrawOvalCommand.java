@@ -22,14 +22,12 @@ public class DrawOvalCommand extends DrawFatherCommand {
     public DrawOvalCommand( Point startPoint, Point endPoint, IApplicationState appstate) {
         super(startPoint,endPoint,appstate);
 
-
-
     }
 
     //run() method uses state-model-pattern to draw shadeTypes.
     @Override
     public void run() {
-        if (IsSelected){
+        if (ShowAsSelected){
             idrawOval = new OvalSelected(graphics2d,startPoint,endPoint,color,color2);
             idrawOval.Draw();
         }
@@ -46,7 +44,6 @@ public class DrawOvalCommand extends DrawFatherCommand {
             idrawOval = new OvalFill(graphics2d,startPoint,endPoint,color,color2);
             idrawOval.Draw();
         }
-
 
     }
 

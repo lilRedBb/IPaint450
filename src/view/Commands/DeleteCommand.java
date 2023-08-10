@@ -1,10 +1,13 @@
 package view.Commands;
 
+import model.persistence.LoopSetStatus;
+import model.persistence.Point;
 import view.gui.PaintCanvas;
 import view.interfaces.ICommand;
 import view.interfaces.IUndoable;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Stack;
 
 /**
@@ -16,23 +19,27 @@ public class DeleteCommand implements IUndoable, ICommand {
     Stack<IUndoable> deleteStack;
 
 
-    //each delete command has its local delete-stack pointing to selected shapes in main-stack
+    //each delete command has its local delete-stack for its own deleted shapes
     public DeleteCommand(){
         this.deleteStack = new Stack<>();
 
     }
 
 
-    //set the shapes who are pointed by delete-stack invisible
+    //set the selected shapes invisible
     @Override
     public void run() {
-        Stack<IUndoable> undoStack = CommandHistory.getUndoStack();
-        for (IUndoable existShapes:undoStack){
-            if (existShapes.getIsSelected()){
-                existShapes.setIsDrawCommand(false);
-                deleteStack.push(existShapes);
-            }
+
+        ArrayList<IUndoable> selectedArray = CommandHistory.getSelectedShapes();
+
+        new LoopSetStatus(selectedArray).SetDrawable(false);
+
+        try {
+            deleteStack.addAll(selectedArray);
+        }catch (NullPointerException e){
+            System.out.println();
         }
+
 
     }
 
@@ -40,26 +47,15 @@ public class DeleteCommand implements IUndoable, ICommand {
     @Override
     public void undo(Stack<IUndoable> undoStack, Stack<IUndoable> redoStack) {
 
-        for (IUndoable deletedShapes:deleteStack){
-
-            deletedShapes.setIsDrawCommand(true);
-
-        }
-
+        new LoopSetStatus(deleteStack).SetDrawable(true);
 
     }
 
 
     @Override
     public void redo(Stack<IUndoable> undoStack, Stack<IUndoable> redoStack) {
-        for (IUndoable deletedShapes:deleteStack){
 
-            deletedShapes.setIsDrawCommand(false);
-
-        }
-
-
-
+        new LoopSetStatus(deleteStack).SetDrawable(false);
     }
 
     @Override
@@ -85,12 +81,7 @@ public class DeleteCommand implements IUndoable, ICommand {
     }
 
     @Override
-    public void setIsSelectedT() {
-
-    }
-
-    @Override
-    public void setIsSelectedF() {
+    public void setIsSelected(boolean tf) {
 
     }
 
@@ -103,4 +94,52 @@ public class DeleteCommand implements IUndoable, ICommand {
     public void setIsDrawCommand(boolean drawable) {
 
     }
+
+    @Override
+    public Point returnStartPoint() {
+        return null;
+    }
+
+    @Override
+    public Point returnEndPoint() {
+        return null;
+    }
+
+    @Override
+    public boolean IsGroupCommand() {
+        return false;
+    }
+
+    @Override
+    public void setShowAsSelected(boolean tf) {
+
+    }
+
+
+    @Override
+    public boolean getShowAsSelected() {
+        return false;
+    }
+
+    @Override
+    public IUndoable addOrPopMyGroup(IUndoable groupCommand, boolean tf) {
+        return null;
+    }
+
+    @Override
+    public void addOrPopMyMembers(IUndoable drawCommand, boolean tf) {
+
+    }
+
+    @Override
+    public ArrayList<IUndoable> returnMyGroup() {
+        return null;
+    }
+
+    @Override
+    public ArrayList<IUndoable> returnMembers() {
+        return null;
+    }
+
+
 }

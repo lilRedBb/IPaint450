@@ -23,14 +23,12 @@ public class DrawTriangleCommand extends DrawFatherCommand {
 
         super(startPoint,endPoint,appstate);
 
-
-
     }
 
     //run() method uses state-model-pattern to draw shadeTypes.
     @Override
     public void run() {
-        if (IsSelected){
+        if (ShowAsSelected){
             idraw = new TriangleSelect(graphics2d,startPoint,endPoint,color,color2);
             idraw.Draw();
         }
