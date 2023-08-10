@@ -147,6 +147,7 @@ public class GroupCommand extends DrawFatherCommand {
     }
 
 
+    //manipulate journal Lists for shape&group.
     @Override
     public void addOrPopMyMembers(IUndoable drawCommand, boolean toAdd) throws NullPointerException{
 
@@ -159,8 +160,8 @@ public class GroupCommand extends DrawFatherCommand {
     }
 
 
-    //when drawCommand==null, means it's a resume action, add history back.
-    //when drawCommand !=null, there's a new coming member, add member.
+    //when drawCommand==null, means it's an un-group resume action, add history members back.
+    //when drawCommand !=null, it's a new group created occasion .
     private void addMember(IUndoable drawCommand) throws NullPointerException{
 
 
@@ -177,8 +178,8 @@ public class GroupCommand extends DrawFatherCommand {
     }
 
 
-    //when drawCommand ==null, it's a whole group dismiss action.
-    //when drawCommand != null, it's a member pop out action.
+    //when drawCommand ==null, it's a whole group got un-group occasion.
+    //when drawCommand != null, it's a selected  member pop out occasion,
     private void removeMember(IUndoable drawCommand){
 
 

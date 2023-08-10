@@ -42,12 +42,11 @@
 - /
 - UnGroupCommand: by manipulating the journal List in both shape and group, achieve ungroup action.
 - /
-- SelectGroupCommand: as decorator for SelectCommand, when shapes and their groups are selected at the same time, un-select the groups.
-- /                   groups remain selected will select their member-shape, but, member shapes not showAsSelected.
+- SelectGroupCommand: as decorator for SelectCommand, when shapes and their groups are selected at the same time, un-select the groups. groups remain selected will select their member-shape, but, member shapes not showAsSelected.
 - /
 - PasteCommand: if were to copy a group, first create new groupCommand, then pass in the cloned-members.
 - in Persistence package
-- MakeGroupFrame: calculates group's members' coordinates and return (leftUpperMostPoint,rightDownerMostPoint).
+- MakeGroupFrame: calculates group's members' coordinates and return in PairPoint(startPoint,endPoint).
 - in GUI package
 - RefreshCanvas: encapsulate the repaint action for all commands.
 

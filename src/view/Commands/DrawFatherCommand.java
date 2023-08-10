@@ -110,6 +110,8 @@ public class DrawFatherCommand implements IUndoable, ICommand,Cloneable {
         return cloned;
     }
 
+
+    //manipulate the journal Lists for both shape&group.
     @Override
     public IUndoable addOrPopMyGroup(IUndoable drawCommand, boolean toAdd) throws NullPointerException{
 
@@ -121,6 +123,8 @@ public class DrawFatherCommand implements IUndoable, ICommand,Cloneable {
 
     }
 
+    //when drawCommand==null, means it's a resume action, add history group back. happens when group's redo & un-group's undo
+    //when drawCommand !=null, there's a new coming group, add it. happens when new group created.
     private IUndoable addGroup(IUndoable drawCommand){
         if (drawCommand == null){
             IUndoable lastGroup = historyGroups.pop();
@@ -132,6 +136,9 @@ public class DrawFatherCommand implements IUndoable, ICommand,Cloneable {
         }
     }
 
+
+    //when drawCommand==null, means shape should pop out from last group; happens when a selected shape ungroup.
+    //when drawCommand !=null, means shape should pop out from certain group; happens when a whole group dismiss.
     private IUndoable removeGroup(IUndoable drawCommand) throws NullPointerException{
 
         if (drawCommand == null){
