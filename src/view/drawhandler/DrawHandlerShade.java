@@ -30,8 +30,6 @@ public class DrawHandlerShade implements IDrawForAllShade {
     //init all the shared fields
     public DrawHandlerShade(Graphics2D graphics2D, Point startPoint, Point endPoint, Color color, Color color2) {
         this.graphics2D =graphics2D;
-        this.startPoint = new Point();
-        this.endPoint = new Point();
         this.color = color;
         this.color2 = color2;
         this.width = Math.abs(endPoint.x - startPoint.x);

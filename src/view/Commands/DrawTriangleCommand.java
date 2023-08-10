@@ -7,7 +7,6 @@ import view.triangleBranch.TriangleOutline;
 import view.triangleBranch.TriangleSelect;
 import model.interfaces.IApplicationState;
 import model.persistence.Point;
-import view.gui.PaintCanvas;
 
 /**
  * @author lilred

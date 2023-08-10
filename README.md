@@ -28,7 +28,9 @@
 
 - Group selected shapes(done)
 - Ungroup selected shapes(done)
-- pattern: decorative pattern used in SelectGroupCommand & RefreshCanvas(GUI package)
+- pattern: decorative pattern used in SelectGroupCommand 
+- pattern: composite pattern used in CommandHistory
+- 
 - changes: 
 - in Commands package
 - DrawFatherCommand added 2 fields, "belongGroups"&"historyGroups", for shape to journal its group.
@@ -48,7 +50,7 @@
 - in Persistence package
 - MakeGroupFrame: calculates group's members' coordinates and return in PairPoint(startPoint,endPoint).
 - in GUI package
-- RefreshCanvas: encapsulate the repaint action for all commands.
+- in CommandHistory: undoStack is a collections of all IUndoable objects, and reDrawUndoStack() will composite all shapes.
 
 
 
