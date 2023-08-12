@@ -11,7 +11,7 @@ public class RefreshCanvas {
 
     private ICommand icmd;
 
-    // pc.repaint() and CommandHistory.reDrawUndoStack() are needed for most commands, so, encapsulate it.
+    // after most command run, the stack should be repaint. This encapsulation reduce redundancy.
     public RefreshCanvas(ICommand cmd) throws NullPointerException{
         this.icmd = cmd;
         PaintCanvas pc = PaintCanvas.getInstance();

@@ -29,7 +29,7 @@
 - Group selected shapes(done)
 - Ungroup selected shapes(done)
 - pattern: decorative pattern used in SelectGroupCommand 
-- pattern: composite pattern used in CommandHistory
+- pattern: composite pattern used in ShapeList (persistence package)
 - 
 - changes: 
 - in Commands package
@@ -50,7 +50,7 @@
 - in Persistence package
 - MakeGroupFrame: calculates group's members' coordinates and return in PairPoint(startPoint,endPoint).
 - in GUI package
-- in CommandHistory: undoStack is a collections of all IUndoable objects, and reDrawUndoStack() will composite all shapes.
+- in ShapeList: shapelist is a collections of all IUndoable objects, and run() will composite all shapes to run.
 
 
 

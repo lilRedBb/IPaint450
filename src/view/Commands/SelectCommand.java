@@ -26,9 +26,10 @@ public class SelectCommand implements ICommand {
 
     }
 
+
+    //calculate the min,max coordinates from this select movement
     public  Stack<IUndoable> SelectOtherShapes(){
         Stack<IUndoable> preSelection = new Stack<>();
-        //calculate the min,max coordinates from this select movement
 
         int thisMaxX = Math.max(startPoint.x, endPoint.x);
         int thisMinX =Math.min(startPoint.x, endPoint.x);
@@ -36,9 +37,9 @@ public class SelectCommand implements ICommand {
         int thisMinY = Math.min(startPoint.y, endPoint.y);
 
 
-        //iterate through main-stack, call each of the shapes' compareXY method to tell overlap with the selection.
-        // change the shape's selected status.
-
+        //iterate through main-stack, call each of the shapes' compareXY method to tell if overlap with this selection.
+        // change the shape's selected status accordingly.
+        // at this point, all overlap shapes are both selected & showAsSelected
         Stack<IUndoable> undostack = CommandHistory.getUndoStack();
 
         for (IUndoable existShape: undostack ){

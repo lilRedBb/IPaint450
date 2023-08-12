@@ -17,14 +17,14 @@ public class SelectGroupCommand implements ICommand {
     private SelectCommand preSelection;
 
 
-
+    //as decorator for SelectCommand, re-fix the selected objects
     public SelectGroupCommand(SelectCommand preSelection){
         this.preSelection = preSelection;
 
     }
 
 
-    //as decorator for SelectCommand, re-fix the selected objects
+
     // selection's priority: shape > group
     //so, when shape & its groups all selected, shape will set its groups un-selected, (exclude)
     //now, remaining groups set its member-shape selected, so they be handled as a group.
@@ -47,6 +47,7 @@ public class SelectGroupCommand implements ICommand {
     private void shapeExcludeGroup(List<IUndoable> preSelectedStack){
 
         for (IUndoable shape:preSelectedStack) {
+
             if (!shape.IsGroupCommand()) {
 
                 new LoopSetStatus(shape.returnMyGroup()).SetBothSelection(false, false);
@@ -59,6 +60,7 @@ public class SelectGroupCommand implements ICommand {
 
     private void groupSelection(List<IUndoable> preSelectedStack){
         for (IUndoable shape:preSelectedStack){
+
             if (shape.IsGroupCommand()&&shape.getIsSelected()){
 
                 new LoopSetStatus(shape.returnMembers()).SetBothSelection(true,false);

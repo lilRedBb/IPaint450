@@ -23,7 +23,7 @@ public class UnGroupCommand implements IUndoable, ICommand {
     //if group selected, group gone
     //if shape selected, shape leave its last group
     @Override
-    public void run() throws NullPointerException{
+    public void run() throws NullPointerException,IndexOutOfBoundsException{
 
         for (IUndoable cmd:toUngroupArray){
             if (cmd.IsGroupCommand()){
@@ -65,7 +65,7 @@ public class UnGroupCommand implements IUndoable, ICommand {
     }
 
 
-    private void disMissThisGroup(IUndoable cmd){
+    private void disMissThisGroup(IUndoable cmd) throws NullPointerException,IndexOutOfBoundsException{
         ArrayList<IUndoable> cmdMembers = cmd.returnMembers();
 
         for (IUndoable Member:cmdMembers){
@@ -78,12 +78,12 @@ public class UnGroupCommand implements IUndoable, ICommand {
 
     }
 
-    private void detachThisShape(IUndoable cmd){
+    private void detachThisShape(IUndoable cmd) throws NullPointerException,IndexOutOfBoundsException{
         IUndoable lastGroup = cmd.addOrPopMyGroup(null,false);
         lastGroup.addOrPopMyMembers(cmd,false);
     }
 
-    private void resumeThisGroup(IUndoable cmd){
+    private void resumeThisGroup(IUndoable cmd) throws NullPointerException,IndexOutOfBoundsException{
         cmd.setIsDrawCommand(true);
 
         cmd.addOrPopMyMembers(null,true);
@@ -97,7 +97,7 @@ public class UnGroupCommand implements IUndoable, ICommand {
     }
 
 
-    private void resumeShapeToGroup(IUndoable cmd){
+    private void resumeShapeToGroup(IUndoable cmd) throws NullPointerException,IndexOutOfBoundsException{
         IUndoable lastGroup = cmd.addOrPopMyGroup(null,true);
         lastGroup.addOrPopMyMembers(cmd,true);
     }

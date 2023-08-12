@@ -17,7 +17,7 @@ import java.util.Stack;
  * @date 2023/07/13
  **/
 public class DrawFatherCommand implements IUndoable, ICommand,Cloneable {
-    //inherited by DrawOval,DrawRect,DrawTriangle,MoveCommand
+    //inherited by DrawOval,DrawRect,DrawTriangle,MoveCommand,groupCommand
 
     IApplicationState appstate; //take in the shared IApplicationState
     Point startPoint;   //take in Point object from ClickHandler
@@ -36,7 +36,7 @@ public class DrawFatherCommand implements IUndoable, ICommand,Cloneable {
 
     boolean IsDrawCommand=true; //visible on canvas or not
 
-    public ArrayList<IUndoable> belongGroups; //when shape added to a group, the group be remembered here
+    public ArrayList<IUndoable> belongGroups; //when shape added to a group, the group will be remembered here
     public Stack<IUndoable> historyGroups;  // when shape get out from a group, the group will resettle to here
 
 
@@ -111,9 +111,9 @@ public class DrawFatherCommand implements IUndoable, ICommand,Cloneable {
     }
 
 
-    //manipulate the journal Lists for both shape&group.
+    //take in a shape or group, manipulate their journal lists, to achieve group/un-group purpose.
     @Override
-    public IUndoable addOrPopMyGroup(IUndoable drawCommand, boolean toAdd) throws NullPointerException{
+    public IUndoable addOrPopMyGroup(IUndoable drawCommand, boolean toAdd) throws NullPointerException,IndexOutOfBoundsException{
 
         if (toAdd){
             return addGroup(drawCommand);
@@ -123,8 +123,9 @@ public class DrawFatherCommand implements IUndoable, ICommand,Cloneable {
 
     }
 
-    //when drawCommand==null, means it's a resume action, add history group back. happens when group's redo & un-group's undo
-    //when drawCommand !=null, there's a new coming group, add it. happens when new group created.
+
+    //when drawCommand !=null: there's a new group want this shape. happens when new group created.
+    //when drawCommand==null: it's a resume history group action. happens when group's redo & un-group's undo
     private IUndoable addGroup(IUndoable drawCommand){
         if (drawCommand == null){
             IUndoable lastGroup = historyGroups.pop();
@@ -137,9 +138,9 @@ public class DrawFatherCommand implements IUndoable, ICommand,Cloneable {
     }
 
 
-    //when drawCommand==null, means shape should pop out from last group; happens when a selected shape ungroup.
-    //when drawCommand !=null, means shape should pop out from certain group; happens when a whole group dismiss.
-    private IUndoable removeGroup(IUndoable drawCommand) throws NullPointerException{
+    //when drawCommand==null: shape should pop out from last group; happens when a selected shape ungroup.
+    //when drawCommand !=null : shape should pop out from certain group; happens when a whole group dismiss.
+    private IUndoable removeGroup(IUndoable drawCommand) throws NullPointerException,IndexOutOfBoundsException{
 
         if (drawCommand == null){
             IUndoable lastGroup = belongGroups.get(belongGroups.size()-1);

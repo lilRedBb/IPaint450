@@ -85,10 +85,14 @@ public class JPaintController implements IJPaintController {
         try {
             ICommand groupCommand = new GroupCommand();
             new RefreshCanvas(groupCommand);
-
-        } catch (NullPointerException e) {
+        }
+         catch(NullPointerException e1){
+                System.out.println("current group has no member");
+        }
+        catch(IndexOutOfBoundsException e2) {
             System.out.println("current group has no member");
         }
+
 
 
 
@@ -100,6 +104,9 @@ public class JPaintController implements IJPaintController {
             new RefreshCanvas(unGroupCommand);
         }catch (NullPointerException e){
             System.out.println("this shape has no group");
+        }
+        catch(IndexOutOfBoundsException e2) {
+            System.out.println("current group has no member");
         }
 
 

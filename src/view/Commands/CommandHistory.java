@@ -1,6 +1,8 @@
 package view.Commands;
 
 
+import model.persistence.ShapeList;
+import view.interfaces.ICommand;
 import view.interfaces.IUndoable;
 
 import java.lang.reflect.Array;
@@ -9,43 +11,43 @@ import java.util.Stack;
 
 
 public class CommandHistory {
-	private static final Stack<IUndoable> undoStack = new Stack<IUndoable>();
-	private static final Stack<IUndoable> redoStack = new Stack<IUndoable>();
+	private static final ShapeList undoStack = new ShapeList();  //main-stack
+	private static final ShapeList redoStack = new ShapeList();
 
-	private  static final Stack<IUndoable> copyStack = new Stack<IUndoable>();
+	private  static final ShapeList copyStack = new ShapeList();
 
 
 
 	public static Stack<IUndoable> getUndoStack() {
-		return undoStack;
+		return undoStack.shapeList;
 	}
 
 	public static Stack<IUndoable> getRedoStack(){
-		return redoStack;
+		return redoStack.shapeList;
 	}
-	public static Stack<IUndoable> getCopyStack() {return copyStack;}
+	public static Stack<IUndoable> getCopyStack() {return copyStack.shapeList;}
 
 
 
 
 	public static void add(IUndoable cmd) {
 
-		undoStack.push(cmd);
+		undoStack.shapeList.push(cmd);
 
-		redoStack.clear();
+		redoStack.shapeList.clear();
 
 
 	}
 
 
 	public static boolean undo() {
-		boolean result = !undoStack.empty();
+		boolean result = !undoStack.shapeList.empty();
 		if (result) {
-			IUndoable c = undoStack.pop();
+			IUndoable c = undoStack.shapeList.pop();
 
-			redoStack.push(c);
+			redoStack.shapeList.push(c);
 
-			c.undo(undoStack, redoStack);
+			c.undo(undoStack.shapeList, redoStack.shapeList);
 
 		}
 		return result;
@@ -53,29 +55,30 @@ public class CommandHistory {
 
 
 	public static boolean redo(){
-		boolean result = !redoStack.empty();
+		boolean result = !redoStack.shapeList.empty();
 		if (result) {
-			IUndoable c = redoStack.pop();
-			undoStack.push(c);
-			c.redo(undoStack, redoStack);
+			IUndoable c = redoStack.shapeList.pop();
+			undoStack.shapeList.push(c);
+			c.redo(undoStack.shapeList, redoStack.shapeList);
 		}
 		return result;
 	}
 
 	//redraw every drawable shapes in the main-stack
 	public static void reDrawUndoStack(){
-		for (IUndoable existShape: undoStack){
-			if (existShape.getIsDrawCommand()){
-				existShape.run();
-			}
-
-		}
+//		for (IUndoable existShape: undoStack.shapeList){
+//			if (existShape.getIsDrawCommand()){
+//				existShape.run();
+//			}
+//
+//		}
+		undoStack.run();
 	}
 
 	//get selected shapes from the main-stack
 	public static ArrayList<IUndoable> getSelectedShapes(){
 		ArrayList<IUndoable> toReturn = new ArrayList<>();
-		for (IUndoable existShape: undoStack){
+		for (IUndoable existShape: undoStack.shapeList){
 			if (existShape.getIsSelected()){
 				toReturn.add(existShape);
 			}
@@ -87,7 +90,7 @@ public class CommandHistory {
 	//get shapes with dash-outline from the main-stack
 	public static ArrayList<IUndoable> getShowAsSelectedShapes(){
 		ArrayList<IUndoable> toReturn = new ArrayList<>();
-		for (IUndoable existShape: undoStack){
+		for (IUndoable existShape: undoStack.shapeList){
 			if (existShape.getShowAsSelected()){
 				toReturn.add(existShape);
 			}
@@ -98,7 +101,7 @@ public class CommandHistory {
 	//get visible shapes from the main-stack
 	public static ArrayList<IUndoable> getDrawableShapes(){
 		ArrayList<IUndoable> toReturn = new ArrayList<>();
-		for (IUndoable existShape: undoStack){
+		for (IUndoable existShape: undoStack.shapeList){
 			if (existShape.getIsDrawCommand()){
 				toReturn.add(existShape);
 			}

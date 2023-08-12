@@ -17,7 +17,7 @@ public class CopyCommand implements ICommand, IUndoable {
     Stack<IUndoable> copyStack;
 
 
-    //copy command simply just update the selected shapes in the main stack to copy stack
+    //copy command simply just put the selected shapes in the main stack to copy stack
     public CopyCommand() {
 
         showAsSelectedArray = CommandHistory.getShowAsSelectedShapes();

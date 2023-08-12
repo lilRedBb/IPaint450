@@ -20,7 +20,7 @@ public class MoveCommand extends DrawFatherCommand {
 
 
 
-    //move-command is invisible
+    //move-command add self's offset to other shapes; move command is invisible.
     public MoveCommand( Point startPoint, Point endPoint, IApplicationState appstate) {
         super(startPoint,endPoint,appstate);
 
@@ -29,7 +29,7 @@ public class MoveCommand extends DrawFatherCommand {
         this.offSetY = this.endPoint.y-this.startPoint.y;
     }
 
-    //run() method will iterate the undoStack and alter the selected shapes' coordinates, and draw the altered shapes
+    //run() method will iterate the main-stack and alter the selected shapes' coordinates
     @Override
     public void run() {
         List<IUndoable> selectedArray = CommandHistory.getSelectedShapes();
@@ -39,7 +39,7 @@ public class MoveCommand extends DrawFatherCommand {
 
     }
 
-    //undo() method will iterate undoStack and resume the selected shapes' coordinates, and draw the resumed shapes
+    //undo() method will iterate main-stack and resume the selected shapes' coordinates
     @Override
     public void undo(Stack<IUndoable> undoStack, Stack<IUndoable> redoStack) {
 
@@ -51,8 +51,7 @@ public class MoveCommand extends DrawFatherCommand {
     }
 
 
-    //because run() methods already loop the undoStack and alter the selected shapes,
-    // so , redo will use run() to alter the resumed shapes.
+    //redo() functionality = run()
     @Override
     public void redo(Stack<IUndoable> undoStack, Stack<IUndoable> redoStack) {
         this.run();

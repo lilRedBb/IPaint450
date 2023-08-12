@@ -34,12 +34,12 @@ public class GroupCommand extends DrawFatherCommand {
     public GroupCommand() {
 
 
-        //Filter: remove groupCommand in selectedStack
+        //Filter: remove groupCommand in selectedStack, then group the shapes
         this.groupMembers = Filter.groupCmdRemove(CommandHistory.getSelectedShapes());
 
 
 
-        //all members remember this groupCommand, and sync selected status, but not show as selected
+        //all members remember this group, and sync selected status, but not show as selected
         for (IUndoable members:groupMembers){
             members.addOrPopMyGroup(this,true);
             members.setIsSelected(true);
@@ -47,7 +47,7 @@ public class GroupCommand extends DrawFatherCommand {
         }
 
 
-        // generate two Points to draw a groupFrame
+        // generate two Points to draw a groupFrame, by calculates the members Points
         PairPoint pp = new MakeGroupFrame().groupFramePoints(groupMembers);
 
         this.startPoint = new Point(pp.first.x, pp.first.y);
@@ -55,6 +55,7 @@ public class GroupCommand extends DrawFatherCommand {
 
         this.graphics2d = PaintCanvas.get2D();
 
+        //group frame show as selected
         setIsSelected(true);
         setShowAsSelected(true);
 
@@ -62,7 +63,7 @@ public class GroupCommand extends DrawFatherCommand {
 
 
     //2nd constructor: used for pasteCommand
-    //pasting a groupCommand will create a new groupCommand, argument=old group's members' clone
+    //pasting a groupCommand will create a new groupCommand, argument=old group's members' clone, argument becomes new group's member
     public GroupCommand(ArrayList<IUndoable> newShapes){
 
         this.groupMembers = newShapes;
@@ -89,7 +90,7 @@ public class GroupCommand extends DrawFatherCommand {
     @Override
     public void run() {
 
-        //run method only draws group frame to the canvas
+        //run method draws group frame to the canvas
         if(ShowAsSelected){
             idrawRect = new RectSelected(graphics2d,startPoint,endPoint,color,color2);
             idrawRect.Draw();
@@ -109,7 +110,7 @@ public class GroupCommand extends DrawFatherCommand {
         //first, erase group frame from canvas
         super.undo(undoStack, redoStack);
 
-        //second, dis-associate all remaining member-shapes
+        //second, dis-associate with all remaining members
         for (IUndoable myMember: groupMembers){
             myMember.addOrPopMyGroup(this,false);
         }
@@ -134,7 +135,7 @@ public class GroupCommand extends DrawFatherCommand {
     }
 
 
-    // when groupCommand being pasted, it will deep-copy the members and give them to the new groupCommand.
+    // when groupCommand being pasted, it will deep-copy the members and return them.
     public ArrayList<IUndoable> membersClone() throws CloneNotSupportedException {
 
         ArrayList<IUndoable> tmp = new ArrayList<>();
@@ -147,9 +148,9 @@ public class GroupCommand extends DrawFatherCommand {
     }
 
 
-    //manipulate journal Lists for shape&group.
+    //take in a shape or group, manipulate their journal lists, to achieve group/un-group purpose.
     @Override
-    public void addOrPopMyMembers(IUndoable drawCommand, boolean toAdd) throws NullPointerException{
+    public void addOrPopMyMembers(IUndoable drawCommand, boolean toAdd) throws NullPointerException,IndexOutOfBoundsException{
 
         if (toAdd){
             addMember(drawCommand);
@@ -160,9 +161,9 @@ public class GroupCommand extends DrawFatherCommand {
     }
 
 
-    //when drawCommand==null, means it's an un-group resume action, add history members back.
-    //when drawCommand !=null, it's a new group created occasion .
-    private void addMember(IUndoable drawCommand) throws NullPointerException{
+    //when drawCommand==null:  it's an un-group resume action, add history members back.
+    //when drawCommand !=null : it's a new group created occasion .
+    private void addMember(IUndoable drawCommand) throws NullPointerException,IndexOutOfBoundsException{
 
 
         if (drawCommand == null){
@@ -178,8 +179,8 @@ public class GroupCommand extends DrawFatherCommand {
     }
 
 
-    //when drawCommand ==null, it's a whole group got un-group occasion.
-    //when drawCommand != null, it's a selected  member pop out occasion,
+    //when drawCommand ==null:  it's a whole group got un-group occasion.
+    //when drawCommand != null:  it's a selected  member pop out occasion,
     private void removeMember(IUndoable drawCommand){
 
 
