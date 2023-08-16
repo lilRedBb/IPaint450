@@ -6,6 +6,8 @@ import model.interfaces.IApplicationState;
 import model.persistence.Point;
 import view.gui.PaintCanvas;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
@@ -18,6 +20,8 @@ public class MoveCommand extends DrawFatherCommand {
     int offSetX; //offset of this mouse movement
     int offSetY; //offset of this mouse movement
 
+    private ArrayList<IUndoable> mySelectedShape;
+
 
 
     //move-command add self's offset to other shapes; move command is invisible.
@@ -27,14 +31,25 @@ public class MoveCommand extends DrawFatherCommand {
         this.IsDrawCommand = false;
         this.offSetX = this.endPoint.x-this.startPoint.x;
         this.offSetY = this.endPoint.y-this.startPoint.y;
+        this.mySelectedShape = new ArrayList<>();
     }
 
     //run() method will iterate the main-stack and alter the selected shapes' coordinates
     @Override
     public void run() {
         List<IUndoable> selectedArray = CommandHistory.getSelectedShapes();
-
-        new LoopSetStatus(selectedArray).AddOffset(offSetX,offSetY);
+        mySelectedShape.addAll(selectedArray);
+        for(IUndoable preSelectShape:selectedArray){
+            if (!preSelectShape.IsGroupCommand()){
+                for (IUndoable group:preSelectShape.returnMyGroup()){
+                    if (!group.getIsSelected()){
+                        mySelectedShape.remove(preSelectShape);
+                        break;
+                    }
+                }
+            }
+        }
+        new LoopSetStatus(mySelectedShape).AddOffset(offSetX,offSetY);
 
 
     }
@@ -43,9 +58,9 @@ public class MoveCommand extends DrawFatherCommand {
     @Override
     public void undo(Stack<IUndoable> undoStack, Stack<IUndoable> redoStack) {
 
-        List<IUndoable> selectedArray = CommandHistory.getSelectedShapes();
 
-        new LoopSetStatus(selectedArray).AddOffset(-offSetX,-offSetY);
+
+        new LoopSetStatus(mySelectedShape).AddOffset(-offSetX,-offSetY);
 
 
     }
